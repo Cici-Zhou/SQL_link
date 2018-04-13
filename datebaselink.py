@@ -18,12 +18,12 @@ def operation_table(con2, con3, con4, *args):
     for i in range(1,l):        
         arg2 = args[i]
         arg = arg +','+ arg2
-    print(arg)
 
     cursor.execute("SELECT %s FROM staff_table where %s %s %s " % (arg, con2, con3, con4))
     
-def search_by_dept(con):
-    cursor.execute('SELECT * FROM staff_table where dept = %s', con)
+# !!!!staff_id 字段会重新从零自增
+def insert_to_staff(i1, i2, i3, i4, i5):
+    cursor.execute("INSERT INTO staff_table(name, age, phone, dept, enroll_date) VALUES(%s, %d, %d, %s, %s)", (i1, i2, i3, i4, i5))
 
 def del_by_id(con):
     cursor.execute('DELETE FROM staff_table where id = %d', con)
@@ -59,7 +59,8 @@ with pymssql.connect(server, user, password, "TEST1") as conn:
         con3 = '>'
         con4 = '22'
 
-        operation_table(con2, con3, con4,'name','age','phone')
+        insert_to_staff('Alex Lin', 23, 13651054609, 'QA', '2015-04-01')
+        operation_table(con2, con3, con4,'*')
         for row in cursor:
             print('row = %r' %(row,))
 
